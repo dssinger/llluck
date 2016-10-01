@@ -3,7 +3,7 @@ Luck computation for Learned League (per SheahanJ's algorithm)
 
 This is an implementation of SheahanJ's algorithm for computing
 "luck" in the [LearnedLeague](http://learnedleague.com), as described
-by his post at in the [LearnedLeague Forum](http://www.learnedleague.com/viewtopic.php?f=3&t=5250)
+by his [post]((http://www.learnedleague.com/viewtopic.php?f=3&t=5250)) in the LearnedLeague Forum.
 
 The program expects to receive a CSV of player records on STDIN, 
 in the format of the "all players" file from the LL site.
