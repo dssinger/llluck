@@ -129,28 +129,51 @@ class Player(object):
         ans = [self.__dict__[t] for t in stats]
         return ans
     
-def output(filename, data, stats):
+def output(filename, data, stats, fmts):
+    # Unfortunately, the BBCode implementation on LearnedLeague doesn't properly
+    # handle tables (it puts a huge amount of whitespace above the table), so we
+    # have to use pre-formatted text instead.  We replace spaces with underscores
+    # for purposes of clarity.
     outfile = open(filename, 'w')
-    outfile.write('[table]\n')
-    outfile.write('[tr][td]Rank[/td]')
-    outfile.write(''.join(['[td]%s[/td]' % item for item in stats]))
-    outfile.write('[/tr]\n')
+    outfile.write('[code]\n')
+    
+    res = []
+    outline = ['Rank']
+    # We need to figure out how wide to make each column.
+    # Start by leaving enough room for the item names
+    widths = {}     
+    for item in stats:
+        outline.append(item)
+        widths[item] = len(item)
+    res.append(outline)
+    
+    
+    
     linenum = 0
     for line in data:
         linenum += 1
-        outfile.write('[tr][td]%d[/td]' % linenum)
+        outline = ['%4d' % linenum]
         for item in stats:
-            value = line.__dict__[item]
-            outfile.write('[td]')
-            if isinstance(value, int):
-                outfile.write('%d' % value)
-            elif isinstance(value, float):
-                outfile.write('%.2f' % value)
+            if 's' in fmts[item]:
+                value = fmts[item] % line.__dict__[item].strip()
             else:
-                outfile.write(value)
-            outfile.write('[/td]')
-        outfile.write('[/tr]\n')
-    outfile.write('[/table]\n')
+                value = fmts[item] % line.__dict__[item]
+            outline.append(value)
+            widths[item] = max(widths[item],len(value))
+        res.append(outline)
+        
+    # Now, we have all of the results in outline, and widths tells us how wide each
+    #   column must be, so we can output the results
+    
+    fmtline  = '%4s | ' + ' | '.join([('%%%ds' if 's' not in fmts[item] else '%%-%ds') % widths[item] for item in stats])
+    for line in res:
+        outfile.write(fmtline % tuple(line))
+        outfile.write('\n')
+        
+    outfile.write('[/code]\n')
+        
+   
+   
     outfile.close()
     
  
@@ -170,6 +193,8 @@ if __name__ == '__main__':
     stats = [
         'Player', 'Wins', 'Losses', 'Ties', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
     ]
+    fmts = {'Player': '%s', 'Wins': '%2d', 'Losses': '%2d', 'Ties':'%2d', 'Pts':'%3d',
+            'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%7.2f'}
         
     # Generate the total list
     writer = csv.writer(open('lucky.csv','wb'))
@@ -179,8 +204,8 @@ if __name__ == '__main__':
         writer.writerow(p.out(stats))
     
     # And now, let's generate the luckiest and unluckiest 100 LLamas
-    output('lucky.bbcode', sortedlist[0:100], stats)
-    output('unlucky.bbcode', sortedlist[-100:], stats)
+    output('lucky.bbcode', sortedlist[0:100], stats, fmts)
+    output('unlucky.bbcode', sortedlist[-100:], stats, fmts)
     
     
     
