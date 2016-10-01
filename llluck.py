@@ -205,7 +205,12 @@ if __name__ == '__main__':
     
     # And now, let's generate the luckiest and unluckiest 100 LLamas
     output('lucky.bbcode', sortedlist[0:100], stats, fmts)
-    output('unlucky.bbcode', sortedlist[-100:], stats, fmts)
     
+    # For unlucky LLamas, we need to ignore Pavanos.
+    index = -1
+
+    while sortedlist[index].FL == 25:
+        index -= 1
     
+    output('unlucky.bbcode', sortedlist[index:index-100:-1], stats, fmts)
     
