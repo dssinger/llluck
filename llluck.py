@@ -117,11 +117,10 @@ class Player(object):
 
         try:
             self.pwp = 1/(1+(self.xMPA/self.xTMP)**1.93)
-            self.xPts = 2*self.pwp*(25-self.xFW-self.FL) + (2*self.xFW) - self.FL
         except ZeroDivisionError:
             self.pwp = 0
-            self.xPts = 0
 
+        self.xPts = 2*self.pwp*(25-self.xFW-self.FL) + (2*self.xFW) - self.FL
             
         self.luck = (self.Pts- self.xPts) / 2
         
