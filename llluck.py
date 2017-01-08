@@ -26,6 +26,9 @@ def normalize(s):
     s = s.replace(' ','')
     if not s[0].isalpha():
         s = '_' + s
+    abbrevs = {'Wins': 'W', 'Losses': 'L', 'Ties': 'T'}
+    if s in abbrevs:
+        s = abbrevs[s]
     return s
     
 def mean(l):
@@ -85,7 +88,7 @@ class Player(object):
             self.__dict__[newkey] = value
             
         # Compute additional stats
-        self.played = self.Wins + self.Losses + self.Ties
+        self.played = self.W + self.L + self.T
         self.forfeitRate = self.FL / self.played
         self.Q = 6 * (self.played - self.FL)
         
@@ -127,7 +130,6 @@ class Player(object):
         
         
     def out(self, stats):
-
         ans = [self.__dict__[t] for t in stats]
         return ans
     
@@ -193,10 +195,10 @@ if __name__ == '__main__':
     # Sort the players from luckiest to least lucky
     sortedlist = sorted(Player.players.values(), key=lambda x:0-x.luck)
     stats = [
-        'Player', 'Wins', 'Losses', 'Ties', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
+        'Player', 'W', 'L', 'T', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
     ]
-    fmts = {'Player': '%s', 'Wins': '%2d', 'Losses': '%2d', 'Ties':'%2d', 'Pts':'%3d',
-            'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%7.2f'}
+    fmts = {'Player': '%s', 'W': '%2d', 'L': '%2d', 'T':'%2d', 'Pts':'%3d',
+            'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%5.2f'}
         
     # Generate the total list
     writer = csv.writer(open('lucky.csv','wb'))
