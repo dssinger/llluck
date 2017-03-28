@@ -88,6 +88,7 @@ class Player(object):
         self.played = self.Wins + self.Losses + self.Ties
         self.forfeitRate = self.FL / self.played
         self.Q = 6 * (self.played - self.FL)
+        self.MPA = self.TMP - self.MPD
         
         # Link into the rundle
         self.realRundle = Rundle.get(self.Rundle)
@@ -192,18 +193,23 @@ if __name__ == '__main__':
         
     # Sort the players from luckiest to least lucky
     sortedlist = sorted(Player.players.values(), key=lambda x:0-x.luck)
+
+    # Establish columns for output
     stats = [
         'Player', 'Wins', 'Losses', 'Ties', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
     ]
     fmts = {'Player': '%s', 'Wins': '%2d', 'Losses': '%2d', 'Ties':'%2d', 'Pts':'%3d',
             'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%7.2f'}
+
+    # The spreadsheet gets more information
+    ssstats = ['Player', 'Rundle', 'Wins', 'Losses', 'Ties', 'Pts', 'xPts', 'MPD', 'FL', 'FW', 'xFW', 'pwp', 'QPct', 'rQPCT', 'PCAA', 'CAA', 'xCAA', 'MPA', 'xMPA', 'TMP', 'xTMP', 'luck', 'SOS']
         
     # Generate the total list
     writer = csv.writer(open('lucky.csv','wb'))
-    writer.writerow(stats)
+    writer.writerow(ssstats)
     
     for p in sortedlist:
-        writer.writerow(p.out(stats))
+        writer.writerow(p.out(ssstats))
     
     # And now, let's generate the luckiest and unluckiest 100 LLamas
     output('lucky.bbcode', sortedlist[0:100], stats, fmts)
