@@ -26,6 +26,9 @@ def normalize(s):
     s = s.replace(' ','')
     if not s[0].isalpha():
         s = '_' + s
+    abbrevs = {'Wins': 'W', 'Losses': 'L', 'Ties': 'T'}
+    if s in abbrevs:
+        s = abbrevs[s]
     return s
     
 def mean(l):
@@ -85,7 +88,7 @@ class Player(object):
             self.__dict__[newkey] = value
             
         # Compute additional stats
-        self.played = self.Wins + self.Losses + self.Ties
+        self.played = self.W + self.L + self.T
         self.forfeitRate = self.FL / self.played
         self.Q = 6 * (self.played - self.FL)
         self.MPA = self.TMP - self.MPD
@@ -128,8 +131,7 @@ class Player(object):
         
         
     def out(self, stats):
-
-        ans = [self.__dict__[t] for t in stats]
+        ans = [self.__dict__[normalize(t)] for t in stats]
         return ans
     
 def output(filename, data, stats, fmts):
@@ -196,13 +198,14 @@ if __name__ == '__main__':
 
     # Establish columns for output
     stats = [
-        'Player', 'Wins', 'Losses', 'Ties', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
+        'Player', 'W', 'L', 'T', 'Pts', 'MPD', 'Rundle', 'xPts', 'luck', 'SOS'
     ]
-    fmts = {'Player': '%s', 'Wins': '%2d', 'Losses': '%2d', 'Ties':'%2d', 'Pts':'%3d',
-            'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%7.2f'}
+    fmts = {'Player': '%s', 'W': '%2d', 'L': '%2d', 'T':'%2d', 'Pts':'%3d',
+            'MPD': '%4d', 'Rundle': '%s', 'xPts': '%7.2f', 'luck': '%7.2f', 'SOS' : '%5.2f'}
 
     # The spreadsheet gets more information
     ssstats = ['Player', 'Rundle', 'Wins', 'Losses', 'Ties', 'Pts', 'xPts', 'MPD', 'FL', 'FW', 'xFW', 'pwp', 'QPct', 'rQPCT', 'PCAA', 'CAA', 'xCAA', 'MPA', 'xMPA', 'TMP', 'xTMP', 'luck', 'SOS']
+
         
     # Generate the total list
     writer = csv.writer(open('lucky.csv','wb'))
