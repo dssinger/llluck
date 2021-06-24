@@ -87,3 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#specific settings
+*.csv
+*.bbcode
+.DS_Store
