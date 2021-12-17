@@ -92,3 +92,7 @@ ENV/
 *.csv
 *.bbcode
 .DS_Store
+
+.idea/
+lucky.*
+unlucky.*
