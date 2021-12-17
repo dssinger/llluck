@@ -18,3 +18,9 @@ lucky.bbcode - a BBCode table showing the same information for the
 
 unlucky.bbcode - a BBCode table showing the same information for the
    unluckiest 100 LLamas 
+
+After creating these files, upload the `lucky.csv` file to Dropbox and copy its shared URL.  Then run
+
+    ref.py {season} {URL}
+
+to create `lucky.txt` and `unlucky.txt`, ready to cut-and-paste into the Message Board.
