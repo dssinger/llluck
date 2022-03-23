@@ -96,3 +96,5 @@ ENV/
 .idea/
 lucky.*
 unlucky.*
+lucky*
+unlucky*
