@@ -56,7 +56,7 @@ outfile.write('I implemented SheahanJ\'s algorithm from the first posts in this 
               ' seasons beginning with season 70 are in this'
               ' [url=https://www.dropbox.com/sh/79w2o3m2wv5txgm/AADGWDoBwQDr7HDveVMLrWPBa?dl=0]Dropbox folder[/url].'
               '\n\n'
-              'The code is available on GitHub at [url]https://github.com/dssinger/llluck[/url].)'
+              'The code is available on GitHub at [url]https://github.com/dssinger/llluck[/url].'
               '\n\n')
 
 outfile.write('The top 100 "lucky" LLamas are listed below, and the bottom 100 will be in the next posting.\n\n')
