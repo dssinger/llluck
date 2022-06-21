@@ -5,19 +5,17 @@ This is an implementation of SheahanJ's algorithm for computing
 "luck" in the [LearnedLeague](http://learnedleague.com), as described
 by his [post]((http://www.learnedleague.com/viewtopic.php?f=3&t=5250)) in the LearnedLeague Forum.
 
-The program expects to receive a CSV of player records on STDIN, 
-in the format of the "all players" file from the LL site.
+Usage: ./llluck.py infile [season]
 
-It generates three output files in the current directory:
+  infile: input file to read, typically with the season number as the first set of digits in the filename.
+  season: the season number (required if the season number is not in the input filename)
 
-lucky.csv - a CSV with player names, records, Rundle, 
-   expected points, luck, and strengh-of-schedule as defined by SheahanJ
+Produces three output files:
 
-lucky.bbcode - a BBCode table showing the same information for the 
-   luckiest 100 LLamas (all output rounded to 2 decimal places)
+  ll{season}.csv - a CSV including all the luck computations
+  lucky{season}.bbcode - the luckiest 100 LLamas in BBCode format
+  unlucky{season}.bbcode - the least lucky 100 LLamas in BBCode format
 
-unlucky.bbcode - a BBCode table showing the same information for the
-   unluckiest 100 LLamas 
 
 After creating these files, upload the `lucky.csv` file to Dropbox and copy its shared URL.  Then run
 
